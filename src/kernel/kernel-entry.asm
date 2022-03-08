@@ -14,8 +14,10 @@ EnableA20:
     or al, 2
     out 0x92, al
     ret
-
+[extern _setup_PML4]
 EnablePaging:
+    call _setup_PML4
+
     ; Enable PAE
     mov edx, cr4
     or  edx, (1 << 5)
@@ -28,7 +30,7 @@ EnablePaging:
     wrmsr
     
     ; Replace 'pml4_table' with the appropriate physical address (and flags, if applicable)
-    mov eax, pml4_table
+    mov eax, 0xC000
     mov cr3, eax
     
     ; Enable paging (and protected mode, if it isn't already active)
@@ -37,7 +39,7 @@ EnablePaging:
     
     ; Now reload the segment registers (CS, DS, SS, etc.) with the appropriate segment selectors...
     
-    mov ax, DATA_SEL
+    mov ax, DATA_SEL ; TODO: Create entry in GDT and populate this
     mov ds, ax
     mov es, ax
     mov fs, ax
