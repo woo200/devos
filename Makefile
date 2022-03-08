@@ -22,13 +22,13 @@ dirs:
 all: run
 
 kernel.bin: $(KERNEL_OBJS)
-	$(LD) src/kernel/kernela.o $^ bin/gdt.o -T"link.ld"
+	$(LD) src/kernel/kernela.o $^ -T"link.ld"
 
 kernel-entry.o:
 	nasm src/kernel/kernel-entry.asm -f elf64 -o src/kernel/kernela.o
 
-gdt.o:
-	$(CC) -Ttext 0x8000 -x c++ -c src/kernel/gdt.cpp16  -o bin/gdt.o -ffreestanding -mno-red-zone -m16
+# gdt.o:
+# 	$(CC) -Ttext 0x8000 -x c++ -c src/kernel/gdt.cpp16  -o bin/gdt.o -ffreestanding -mno-red-zone -m16
 
 %.o: %.cpp
 	$(CC) -Ttext 0x8000 -c $< -o $@ $(CCFLAGS)
@@ -39,7 +39,7 @@ binaries.o:
 mbr.bin:
 	nasm src/bootloader/bootloader.asm -f bin -o bin/mbr.bin
 
-build: clean dirs gdt.o mbr.bin kernel-entry.o kernel.bin 
+build: clean dirs mbr.bin kernel-entry.o kernel.bin 
 	dd if=/dev/zero of=bin/image.bin bs=512 count=2880
 	dd if=bin/mbr.bin of=bin/image.bin bs=512 conv=notrunc seek=0 count=1
 	dd if=bin/kernel.bin of=bin/image.bin conv=notrunc seek=1 bs=512 count=2048
