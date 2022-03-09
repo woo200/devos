@@ -14,4 +14,7 @@ extern "C" void _start( void )
     
     term->clear_screen();
     term->info("Kernel Started");
+
+    std::string test("Hello, World!");
+    term->info(test.cStr());
 }

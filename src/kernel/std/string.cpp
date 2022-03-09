@@ -22,6 +22,7 @@ namespace std
         free(this->theString);
         this->theString = newStr;
         strcat(this->theString, inStr);
+        this->stringLength += inStrLen;
     }
 
     char* string::cStr()
@@ -38,4 +39,29 @@ namespace std
         this->append(theStrToAppend);
         free(theStrToAppend);
     }
+
+    void string::operator+=(const char *cStr)
+    {
+        this->append(cStr);
+    }
+
+    void string::operator+=(string str)
+    {
+        this->append(str);
+    }
+
+    string string::operator+(const char *cStr)
+    {
+        string strToReturn(this->cStr());
+        strToReturn.append(cStr);
+        return strToReturn;
+    }
+
+    string string::operator+(string str)
+    {
+        string strToReturn(this->cStr());
+        strToReturn.append(str);
+        return strToReturn;
+    }
 } 
+
