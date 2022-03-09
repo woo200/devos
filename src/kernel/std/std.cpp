@@ -66,6 +66,23 @@ void* calloc(uint64_t requestedMemorySize)
     return memory;
 }
 
+void* realloc(void* oldMem, uint64_t requestedMemorySize)
+{
+    void* newMemory = (void*)calloc(requestedMemorySize);
+    MemorySegment* memSeg = (MemorySegment*) (oldMem - sizeof(MemorySegment));
+    memcpy(oldMem, newMemory, memSeg->size);
+    return newMemory;
+}
+
+void memcpy(void* src, void* dest, int size)
+{
+    char *csrc = (char *)src;
+    char *cdest = (char *)dest;
+    
+    for (int i=0; i<size; i++)
+        cdest[i] = csrc[i];
+}
+
 void free(void* segToFree)
 {
     MemorySegment* memSeg = (MemorySegment*) (segToFree - sizeof(MemorySegment));
@@ -178,19 +195,8 @@ int strlen(const char *str)
     return result;
 }
 
-void strcpy(const char *source, char *destination)
-{
-    while (*cStr)
-    {
-        *cpyStr = *cStr++;
-    }
-}
-
 char* strcpy(const char* source, char* destination)
 {
-    if (destination == NULL) {
-        return NULL;
-    } 
     char *ptr = destination;
     while (*source != '\0')
     {

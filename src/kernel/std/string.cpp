@@ -15,17 +15,13 @@ namespace std
         this->theString = (char*) malloc(sizeof(char));
     }
 
-    void string::append(const char *cStr)
+    void string::append(const char *inStr)
     {
-        int inStrLength = strlen(cStr);
-        char* originalStr = (char*) calloc(sizeof(char) * this->stringLength);
-        strcpy(this->theString, originalStr);
+        int inStrLen = strlen(inStr);
+        char* newStr = (char*) realloc(this->theString, sizeof(char) * (this->stringLength + inStrLen));
         free(this->theString);
-        
-        this->theString = (char*) calloc(sizeof(char) * (this->stringLength + inStrLength));
-        strcpy(originalStr, this->theString);
-        strcat(this->theString, cStr);
-        free(originalStr);
+        this->theString = newStr;
+        strcat(this->theString, inStr);
     }
 
     char* string::cStr()

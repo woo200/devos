@@ -34,6 +34,9 @@ void InitializeHeap(uint64_t HeapStart);
 
 void* malloc(uint64_t size);
 void* calloc(uint64_t size);
+void* realloc(void* oldMem, uint64_t size);
+
+void memcpy(void* source, void* destination, int size);
 
 int strlen(const char *cStr);
 char* strcpy(const char *source, char *destination);
