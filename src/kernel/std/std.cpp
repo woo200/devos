@@ -166,3 +166,22 @@ void VBETerminal::info( const char *message )
     this->print(0xF, "[ KERNEL ] ");
     this->println(0xA, message);
 }
+
+int strlen(const char *str)
+{
+    int result = 0;
+    while (*str)
+    {
+        result++;
+        str++;
+    }
+    return result;
+}
+
+void strcpy(const char *cStr, char *cpyStr)
+{
+    while (*cStr)
+    {
+        *cpyStr = *cStr++;
+    }
+}
