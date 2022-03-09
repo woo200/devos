@@ -48,10 +48,13 @@ build: clean dirs mbr.bin kernel-entry.o kernel.bin
 run: build
 	qemu-system-x86_64 bin/image.bin -d int,cpu_reset -no-reboot
 
+bochs: build
+	bochs 'boot:floppy' 'floppya: 1_44=bin/image.bin, status=inserted'
+
 clean:
 	rm -f src/bootloader/*.o
 	rm -f src/kernel/*.o
-	rm -f src/kernel/kstd/*.o
+	rm -f src/kernel/std/*.o
 	rm -f src/os/*.o
 	rm -f src/os/std/*.o
 	rm -f bin/*
