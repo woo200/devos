@@ -5,11 +5,8 @@ namespace std
     string::string(const char *cStr)
     {
         this->stringLength = strlen(cStr);
-        this->theString = (char*) malloc(sizeof(char) * stringLength);
-        for (int i = 0; i < this->stringLength; i++)
-        {
-            this->theString[i] = cStr[i];
-        }
+        this->theString = (char*) calloc(sizeof(char) * this->stringLength);
+        strcpy(cStr, this->theString);
     }
 
     string::string()
@@ -20,24 +17,15 @@ namespace std
 
     void string::append(const char *cStr)
     {
-        int len = strlen(cStr);
-
-        char* oldStr = (char*) malloc(sizeof(char) * this->stringLength);
-        strcpy(this->theString, oldStr);
+        int inStrLength = strlen(cStr);
+        char* originalStr = (char*) calloc(sizeof(char) * this->stringLength);
+        strcpy(this->theString, originalStr);
         free(this->theString);
-        this->theString = (char*) malloc(sizeof(char) * (stringLength + len));
-
-        for (int i = 0; i < this->stringLength; i++)
-        {
-            this->theString[i] = oldStr[i];
-        }
-        free(oldStr);
-
-        for (int i = this->stringLength, total = this->stringLength + len; i < total; i++)
-        {
-            this->theString[i] = cStr[i];
-        }
-        this->stringLength += len;
+        
+        this->theString = (char*) calloc(sizeof(char) * (this->stringLength + inStrLength));
+        strcpy(originalStr, this->theString);
+        strcat(this->theString, cStr);
+        free(originalStr);
     }
 
     char* string::cStr()

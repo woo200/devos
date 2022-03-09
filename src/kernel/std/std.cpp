@@ -178,10 +178,36 @@ int strlen(const char *str)
     return result;
 }
 
-void strcpy(const char *cStr, char *cpyStr)
+void strcpy(const char *source, char *destination)
 {
     while (*cStr)
     {
         *cpyStr = *cStr++;
     }
+}
+
+char* strcpy(const char* source, char* destination)
+{
+    if (destination == NULL) {
+        return NULL;
+    } 
+    char *ptr = destination;
+    while (*source != '\0')
+    {
+        *destination = *source;
+        destination++;
+        source++;
+    }
+     *destination = '\0';
+     return ptr;
+}
+
+char* strcat(char* destination, const char* source)
+{
+    char* ptr = destination + strlen(destination);
+     while (*source != '\0') {
+        *ptr++ = *source++;
+    }
+    *ptr = '\0';
+    return destination;
 }
