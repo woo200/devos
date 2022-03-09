@@ -10,6 +10,7 @@ AS=nasm
 CCFLAGS=-ffreestanding -mno-red-zone -m64
 
 KERNEL_SRCS = $(wildcard src/kernel/*.cpp)
+KERNEL_SRCS += $(wildcard src/kernel/std/*.cpp)
 # KERNEL_SRCS += $(wildcard src/kernel/kstd/*.cpp)
 # KERNEL_SRCS += $(wildcard src/os/std/*.cpp)
 # KERNEL_SRCS += $(wildcard src/os/*.cpp)
