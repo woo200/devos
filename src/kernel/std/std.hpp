@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../types.hpp"
+#include "../../types.hpp"
 
 struct MemorySegment {
     uint64_t size;

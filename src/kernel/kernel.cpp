@@ -4,34 +4,60 @@ Contains entry point
 */
 
 #include "../types.hpp"
+#include "std/std.hpp"
+
+int currentPos = 0;
+
 void write_string( int colour, const char *string )
 {
-    volatile char *video = (volatile char*)0xB8000;
+    volatile char *video = (volatile char*)0xB8000 + (currentPos*2);
     while( *string != 0 )
     {
+        if (*string == '\n') {
+            int charsLeft = 80 - (currentPos % 80);
+
+            video += charsLeft * 2;
+            currentPos += charsLeft;
+
+            string++;
+            continue;
+        }
         *video++ = *string++;
         *video++ = colour;
+        currentPos++;
     }
 }
 
-extern "C" void _setup_PML4( void )
+void clear_screen()
 {
-    // write_string(2, "HELLO");
+    volatile char *video = (volatile char*)0xB8000;
+    for (int i = 0; i < 80*25; i++)
+    {
+        *video++ = ' ';
+        *video++ = 0;
+    }
+}
 
-    volatile uint64_t* _PML4_table_address = (volatile uint64_t*) 0x1000;
-    volatile uint64_t* _PAGE_DIRECTORY_POINTER_TABLE = (volatile uint64_t*) 0x2000;
-    volatile uint64_t* _PAGE_DIRECTORY = (volatile uint64_t*) 0x3000;
-    volatile uint64_t* _PAGE_TABLE = (volatile uint64_t*) 0x4000;
+void print_hex( uint64_t value )
+{
+    char hexchars[] = "0123456789ABCDEF";
+    char text_to_print[19];
 
-    _PAGE_TABLE[0] = (1 << 0) | (1 << 1) | (0x00000000 * 4096); // Allocate a 4Kb page at 0x1064000
-    _PAGE_DIRECTORY[0] = (1 << 0) | (1 << 1) | ((uint64_t) _PAGE_TABLE * 4096);
-    _PAGE_DIRECTORY_POINTER_TABLE[0] = (1 << 0) | (1 << 1) | ((volatile uint64_t) _PAGE_DIRECTORY * 4096);
-    _PML4_table_address[0] = (1 << 0) | (1 << 1) | (1 << 2) | ((volatile uint64_t) _PAGE_DIRECTORY_POINTER_TABLE * 4096);
+    text_to_print[0] = '0';
+    text_to_print[1] = 'x';
+
+    for (int i = 0; i < 16; i++) {
+        int current_chr = value >> i * 4 & 0xF;
+        text_to_print[15-i+2] = hexchars[current_chr];
+    }
+    text_to_print[18] = '\0';
+
+    write_string(2, text_to_print);
 }
 
 extern "C" void _start( void )
 {
-    for (uint64_t i = 0xA0000; i < 0xB8000; i++) {
-        *(char*)i = 256;
-    }
+    clear_screen();
+    print_hex((uint64_t)0xDEADBEEFDEADBEEF);
+    write_string(02, "\nHello, World!");
 }
