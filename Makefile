@@ -23,6 +23,9 @@ dirs:
 
 all: run
 
+doxygen:
+	doxygen Doxyfile
+
 kernel.bin: $(KERNEL_OBJS)
 	$(LD) src/kernel/kernela.o $^ -T"link.ld"
 
