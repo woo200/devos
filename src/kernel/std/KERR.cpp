@@ -84,14 +84,14 @@ namespace kstd
     printRegister(reg.rdi, "RDI:", 2, 8);
     printRegister(reg.rbp, "RBP:", 0, 9);
     printRegister(reg.rsp, "RSP:", 1, 9);
-    printRegister(reg.r8, "R8:", 2, 9);
-    printRegister(reg.r9, "R9:", 0, 10);
-    printRegister(reg.r10, "R10:", 1, 10);
-    printRegister(reg.r11, "R11:", 2, 10);
-    printRegister(reg.r12, "R12:", 0, 11);
-    printRegister(reg.r13, "R13:", 1, 11);
-    printRegister(reg.r14, "R14:", 2, 11);
-    printRegister(reg.r15, "R15:", 0, 12);
+    printRegister(reg.r8, "R8:", 0, 11);
+    printRegister(reg.r9, "R9:", 1, 11);
+    printRegister(reg.r10, "R10:", 2, 11);
+    printRegister(reg.r11, "R11:", 0, 12);
+    printRegister(reg.r12, "R12:", 1, 12);
+    printRegister(reg.r13, "R13:", 2, 12);
+    printRegister(reg.r14, "R14:", 0, 13);
+    printRegister(reg.r15, "R15:", 1, 13);
     while (1) { }
   }
 
