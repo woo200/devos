@@ -13,6 +13,5 @@ extern "C" void _start( void )
     
     VBETerminal* term = (VBETerminal*) calloc(sizeof(VBETerminal));
     term->clear_screen();
-    term->info("Kernel Loaded");
-    
+    term->info("Kernel Loaded!");
 }

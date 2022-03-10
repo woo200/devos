@@ -7,8 +7,8 @@ namespace std
     class string
     {
         char* theString;
-        int stringLength;
     public:
+        int stringLength;
         string(const char *cStr);
         string();
 

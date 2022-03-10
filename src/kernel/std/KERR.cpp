@@ -2,29 +2,96 @@
 
 namespace kstd
 {
+  void ClearScreen(uint64_t ClearColor)
+  {
+    uint64_t value = 0;
+
+    value += ClearColor << 8;
+    value += ClearColor << 24;
+    value += ClearColor << 40;
+    value += ClearColor << 56;
+
+    for (uint64_t* i = (uint64_t*)VGA_MEMORY; i < (uint64_t*)(VGA_MEMORY + 4000); ++i)
+    {
+      *i = value;
+    }
+  }
+
+  uint16_t positionFromCoords(uint8_t x, uint8_t y)
+  {
+    return y * VGA_WIDTH + x;
+  }
+
+  void PrintString(const char* str, uint8_t color, uint16_t position)
+  {
+    uint8_t* charPtr = (uint8_t*)str;
+
+    while (*charPtr != 0)
+    {
+      switch (*charPtr)
+      {
+        case 10:
+          position += VGA_WIDTH;
+        case 13:
+          position -= position % VGA_WIDTH;
+          break;
+        default:
+          *(VGA_MEMORY + position * 2) = *charPtr;
+          *(VGA_MEMORY + position * 2 + 1) = color;
+          ++position;
+      }
+      ++charPtr;
+    }
+  }
+
+  void printHex(uint64_t value, uint16_t color, uint16_t position)
+  {
+      char hexchars[] = "0123456789ABCDEF";
+      char text_to_print[19];
+
+      text_to_print[0] = '0';
+      text_to_print[1] = 'x';
+
+      for (int i = 0; i < 16; i++) {
+          int current_chr = value >> i * 4 & 0xF;
+          text_to_print[15-i+2] = hexchars[current_chr];
+      }
+      text_to_print[18] = '\0';
+
+      PrintString(text_to_print, color, position);
+  }
+
+  void printRegister(uint64_t value, char* reg, int x, int y)
+  {
+    int pos = kstd::positionFromCoords(3 + (25 * x), y);
+    kstd::PrintString(reg, BACKGROUND_RED | FOREGROUND_WHITE, pos);
+    pos += 5;
+    kstd::printHex(value, BACKGROUND_RED | FOREGROUND_WHITE, pos);
+  }
+
   void __error(char* error)
   {
     kstd::ClearScreen(BACKGROUND_RED | FOREGROUND_WHITE);
-    kstd::setCursorPosition(kstd::positionFromCoords(VGA_WIDTH / 2 - 9, 2));
-    kstd::PrintString("FATAL KERNEL ERROR", BACKGROUND_BLINKINGRED | FOREGROUND_WHITE);
-    kstd::setCursorPosition(kstd::positionFromCoords(VGA_WIDTH / 2 - (strlen(error) / 2), 4));
-    kstd::PrintStringwNLCenter(error, BACKGROUND_RED | FOREGROUND_WHITE);
-    kstd::PrintString("\n\n");
+    kstd::PrintString("FATAL KERNEL ERROR", BACKGROUND_BLINKINGRED | FOREGROUND_WHITE, kstd::positionFromCoords(VGA_WIDTH / 2 - 9, 3));
+    kstd::PrintString(error, BACKGROUND_RED | FOREGROUND_WHITE, kstd::positionFromCoords(VGA_WIDTH / 2 - (strlen(error) / 2), 5));
 
-    std::string rip("RAX=");
     registers reg = dump_regs();
-
-    kstd::setCursorPosition(cursorPosition - (cursorPosition % VGA_WIDTH) + 1);
-
-    rip += kstd::hexToString(reg.rbp);
-
-    kstd::PrintString(rip.cStr(), BACKGROUND_RED | FOREGROUND_WHITE);
-
-    kstd::setCursorPosition(kstd::positionFromCoords(VGA_WIDTH, 50));
-
-    int i = 0;
-    bool state = true;
-
+    printRegister(reg.rax, "RAX:", 0, 7);
+    printRegister(reg.rbx, "RBX:", 1, 7);
+    printRegister(reg.rcx, "RCX:", 2, 7);
+    printRegister(reg.rdx, "RDX:", 0, 8);
+    printRegister(reg.rsi, "RSI:", 1, 8);
+    printRegister(reg.rdi, "RDI:", 2, 8);
+    printRegister(reg.rbp, "RBP:", 0, 9);
+    printRegister(reg.rsp, "RSP:", 1, 9);
+    printRegister(reg.r8, "R8:", 2, 9);
+    printRegister(reg.r9, "R9:", 0, 10);
+    printRegister(reg.r10, "R10:", 1, 10);
+    printRegister(reg.r11, "R11:", 2, 10);
+    printRegister(reg.r12, "R12:", 0, 11);
+    printRegister(reg.r13, "R13:", 1, 11);
+    printRegister(reg.r14, "R14:", 2, 11);
+    printRegister(reg.r15, "R15:", 0, 12);
     while (1) { }
   }
 

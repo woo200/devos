@@ -43,6 +43,16 @@ extern "C" void isr1_handler(){
 	outb(0xa0, 0x20);
 }
 
+void write_string( int colour, const char *string )
+{
+    volatile char *video = (volatile char*)0xB8000;
+    while( *string != 0 )
+    {
+        *video++ = *string++;
+        *video++ = colour;
+    }
+}
+
 extern "C" void DF_handler() {
     volatile char *video = (volatile char*)0xB8000;
     for (int i = 0; i < 80*25; i++)
@@ -50,7 +60,7 @@ extern "C" void DF_handler() {
         *video++ = ' ';
         *video++ = 0;
     }
-    kstd::__error("Double Fault Detected. This is an unrecoverable error.");
+    kstd::__error("UNRECOVERABLE: Double Fault Detected");
     for (;;) { asm("hlt"); }
 }
 
