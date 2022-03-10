@@ -40,6 +40,9 @@ StartProtectedMode:
 
 [bits 64]
 [extern _start]
+
+%include "src/kernel/interrupts/ISR1.asm"
+
 Start64Bit:
     call _start
     jmp $
