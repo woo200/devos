@@ -2,6 +2,11 @@
 
 namespace std
 {
+    /**
+     * @brief Construct a new string::string object
+     * 
+     * @param cStr Initial String
+     */
     string::string(const char *cStr)
     {
         this->stringLength = strlen(cStr);
@@ -9,12 +14,21 @@ namespace std
         strcpy(cStr, this->theString);
     }
 
+    /**
+     * @brief Construct a new string::string object
+     * 
+     */
     string::string()
     {
         this->stringLength = 0;
         this->theString = (char*) malloc(sizeof(char));
     }
 
+    /**
+     * @brief Append a C string
+     * 
+     * @param inStr String to append
+     */
     void string::append(const char *inStr)
     {
         int inStrLen = strlen(inStr);
@@ -25,6 +39,11 @@ namespace std
         this->stringLength += inStrLen;
     }
 
+    /**
+     * @brief Get C str
+     * 
+     * @return char* C str
+     */
     char* string::cStr()
     {
         char* str = (char*) malloc(sizeof(char) * (stringLength + 1));
@@ -33,6 +52,11 @@ namespace std
         return str;
     }
 
+    /**
+     * @brief Append a string 
+     * 
+     * @param str String to append
+     */
     void string::append(string str)
     {
         char* theStrToAppend = str.cStr();
@@ -40,16 +64,32 @@ namespace std
         free(theStrToAppend);
     }
 
+    /**
+     * @brief Append a C string
+     * 
+     * @param cStr string to append
+     */
     void string::operator+=(const char *cStr)
     {
         this->append(cStr);
     }
 
+    /**
+     * @brief Append a string
+     * 
+     * @param str string to append
+     */
     void string::operator+=(string str)
     {
         this->append(str);
     }
 
+    /**
+     * @brief Append C string and return appended value
+     * 
+     * @param cStr C str to append
+     * @return string Final appended value
+     */
     string string::operator+(const char *cStr)
     {
         string strToReturn(this->cStr());
@@ -57,6 +97,12 @@ namespace std
         return strToReturn;
     }
 
+    /**
+     * @brief Append string and return appended value
+     * 
+     * @param cStr str to append
+     * @return string Final appended value
+     */
     string string::operator+(string str)
     {
         string strToReturn(this->cStr());

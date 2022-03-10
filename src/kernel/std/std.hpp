@@ -3,6 +3,9 @@
 #include "../../types.hpp"
 #include "string.hpp"
 
+/**
+ * @brief Header to all memory blocks
+ */
 struct MemorySegment {
     uint64_t size;
     bool isFree;
@@ -12,6 +15,10 @@ struct MemorySegment {
     MemorySegment* prevFreeSeg;
 };
 
+/**
+ * @brief Control the terminal
+ * 
+ */
 class VBETerminal {
     int currentPos;
 public:

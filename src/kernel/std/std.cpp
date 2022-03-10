@@ -3,6 +3,11 @@
 MemorySegment* LastMemorySeg;
 MemorySegment* LargestFreeMemorySeg;
 
+/**
+ * @brief Initialzie the heap to a memory address
+ * 
+ * @param HeapStart Memory address to start heap
+ */
 void InitializeHeap(uint64_t HeapStart) {
     MemorySegment* FirstMemorySegment = (MemorySegment*) HeapStart;
 
@@ -17,6 +22,12 @@ void InitializeHeap(uint64_t HeapStart) {
     LargestFreeMemorySeg = FirstMemorySegment;
 }
 
+/**
+ * @brief Allocate memory
+ * 
+ * @param requestedMemorySize How much memory to allocate
+ * @return void* Allocated memory
+ */
 void* malloc(uint64_t requestedMemorySize)
 {
     if (LargestFreeMemorySeg && LargestFreeMemorySeg->size >= requestedMemorySize)
@@ -58,6 +69,12 @@ void* malloc(uint64_t requestedMemorySize)
     return ((void*) NewMemorySegment) + sizeof(MemorySegment);
 }
 
+/**
+ * @brief Allocate memory and initialize it to zero
+ * 
+ * @param requestedMemorySize Requested memory size
+ * @return void* Allocated memory
+ */
 void* calloc(uint64_t requestedMemorySize)
 {
     void* memory = malloc(requestedMemorySize);
@@ -66,6 +83,13 @@ void* calloc(uint64_t requestedMemorySize)
     return memory;
 }
 
+/**
+ * @brief Reallocate a memory segment to make it bigger
+ * 
+ * @param oldMem Old memory address
+ * @param requestedMemorySize New memory size
+ * @return void* Reallocated memory
+ */
 void* realloc(void* oldMem, uint64_t requestedMemorySize)
 {
     void* newMemory = (void*)calloc(requestedMemorySize);
@@ -74,6 +98,13 @@ void* realloc(void* oldMem, uint64_t requestedMemorySize)
     return newMemory;
 }
 
+/**
+ * @brief Copy memory
+ * 
+ * @param src Source memory address
+ * @param dest Destination memory address
+ * @param size Number of bytes to copy
+ */
 void memcpy(void* src, void* dest, int size)
 {
     char *csrc = (char *)src;
@@ -83,6 +114,11 @@ void memcpy(void* src, void* dest, int size)
         cdest[i] = csrc[i];
 }
 
+/**
+ * @brief Free memory
+ * 
+ * @param segToFree Segment to free
+ */
 void free(void* segToFree)
 {
     MemorySegment* memSeg = (MemorySegment*) (segToFree - sizeof(MemorySegment));
@@ -105,11 +141,21 @@ void free(void* segToFree)
     memSeg->prevSeg->nextFreeSeg = memSeg;
 }
 
+/**
+ * @brief Construct a new VBETerminal::VBETerminal object
+ * 
+ */
 VBETerminal::VBETerminal()
 {
     this->currentPos = 0;
 }
 
+/**
+ * @brief Print colored string to terminal
+ * 
+ * @param colour color
+ * @param string string to print
+ */
 void VBETerminal::print(int colour, const char *string)
 {
     volatile char *video = (volatile char*)0xB8000 + (this->currentPos * 2);
@@ -130,22 +176,42 @@ void VBETerminal::print(int colour, const char *string)
     }
 }
 
+/**
+ * @brief Print a string to terminal
+ * 
+ * @param string string to print
+ */
 void VBETerminal::print(const char *string)
 {
     this->print(0xF, string);
 }
 
+/**
+ * @brief Print a colored string and newline to the terminal
+ * 
+ * @param color color
+ * @param string string to print
+ */
 void VBETerminal::println(int color, const char *string)
 {
     this->print(color, string);
     this->print(0x0, "\n");
 }
 
+/**
+ * @brief Print a string and newline to the terminal
+ * 
+ * @param string string to print
+ */
 void VBETerminal::println(const char *string)
 {
     this->println(0xF, string);
 }
 
+/**
+ * @brief Clear the screen
+ * 
+ */
 void VBETerminal::clear_screen()
 {
     volatile char *video = (volatile char*)0xB8000;
@@ -156,6 +222,12 @@ void VBETerminal::clear_screen()
     }
 }
 
+/**
+ * @brief Print colored hex value to screen
+ * 
+ * @param color color
+ * @param value value to print
+ */
 void VBETerminal::printHex(int color, uint64_t value)
 {
     char hexchars[] = "0123456789ABCDEF";
@@ -173,17 +245,33 @@ void VBETerminal::printHex(int color, uint64_t value)
     this->print(color, text_to_print);
 }
 
+/**
+ * @brief Print hex value to screen
+ * 
+ * @param value value to print
+ */
 void VBETerminal::printHex(uint64_t value)
 {
     this->printHex(0xF, value);
 }
 
+/**
+ * @brief Log info to kernel screen
+ * 
+ * @param message message to print
+ */
 void VBETerminal::info( const char *message )
 {
     this->print(0xF, "[ KERNEL ] ");
     this->println(0xA, message);
 }
 
+/**
+ * @brief Get the length of a C string
+ * 
+ * @param str string
+ * @return int Length of {@code string}
+ */
 int strlen(const char *str)
 {
     int result = 0;
@@ -195,6 +283,13 @@ int strlen(const char *str)
     return result;
 }
 
+/**
+ * @brief Copy a string 
+ * 
+ * @param source Source string
+ * @param destination Destination string
+ * @return char* address of {@destination}
+ */
 char* strcpy(const char* source, char* destination)
 {
     char *ptr = destination;
@@ -208,6 +303,13 @@ char* strcpy(const char* source, char* destination)
      return ptr;
 }
 
+/**
+ * @brief Concatenate two C strings
+ * 
+ * @param destination Base string
+ * @param source String to concat to base
+ * @return char* address of {@code destination}
+ */
 char* strcat(char* destination, const char* source)
 {
     char* ptr = destination + strlen(destination);
@@ -218,14 +320,32 @@ char* strcat(char* destination, const char* source)
     return destination;
 }
 
+/**
+ * @brief Write a byte to a port
+ * 
+ * @param port Port
+ * @param val Value
+ */
 void outb(unsigned short port, unsigned char val){
   asm volatile ("outb %0, %1" : : "a"(val), "Nd"(port));
 }
 
+/**
+ * @brief Write a byte to a port
+ * 
+ * @param port Port
+ * @param val Value
+ */
 void outbyte(unsigned short port, unsigned char val) {
     outb(port, val);
 }
 
+/**
+ * @brief Get a byte from a port
+ * 
+ * @param port Port
+ * @return unsigned char Byte
+ */
 unsigned char inb(unsigned short port){
   unsigned char returnVal;
   asm volatile ("inb %1, %0"

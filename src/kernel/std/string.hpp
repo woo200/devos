@@ -4,6 +4,10 @@
 
 namespace std
 {
+    /**
+     * @brief stanard string class
+     * 
+     */
     class string
     {
         char* theString;

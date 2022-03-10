@@ -16,6 +16,10 @@ extern "C" void LoadIDT();
 #define ICW1_ICW4 0x01
 #define ICW4_8086 0x01
 
+/**
+ * @brief Remap the PIC chip
+ * 
+ */
 void RemapPic(){
     uint8_t a1, a2;
 
