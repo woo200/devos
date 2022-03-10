@@ -10,8 +10,8 @@ typedef unsigned char uint8_t;
  * 
  */
 struct FlagsLimit {
-    uint8_t limit : 4;
-    uint8_t flags : 4;
+    uint8_t limit : 4; /** Limit */
+    uint8_t flags : 4; /** Flags */
 };
 
 /**
@@ -20,14 +20,14 @@ struct FlagsLimit {
  */
 struct GDTEntry64
 {
-    uint16_t limit;
-    uint16_t base_low;
-    uint8_t base_medium;
-    uint8_t access_byte;
-    FlagsLimit flags_limit;
-    uint8_t base_high;
-    uint32_t base4;
-    uint32_t reserved;
+    uint16_t limit;         /** GDT Entry Limit */
+    uint16_t base_low;      /** Base Low */
+    uint8_t base_medium;    /** Base Medium */
+    uint8_t access_byte;    /** Acces Byte */
+    FlagsLimit flags_limit; /** Flags Limit */
+    uint8_t base_high;      /** Base High */
+    uint32_t base4;         /** Base High(er) */
+    uint32_t reserved;      /** Reserved (must be 0) */
 };
 
 /**
@@ -36,12 +36,12 @@ struct GDTEntry64
  */
 struct GDTEntry32
 {
-    uint16_t limit;
-    uint16_t base_low;
-    uint8_t base_medium;
-    uint8_t access_byte;
-    FlagsLimit flags_limit;
-    uint8_t base_high;
+    uint16_t limit;         /** GDT Entry Limit */
+    uint16_t base_low;      /** Base Low */
+    uint8_t base_medium;    /** Base Mdeium */
+    uint8_t access_byte;    /** Access Byte */
+    FlagsLimit flags_limit; /** Flags Limit */
+    uint8_t base_high;      /** Base High */
 };
 
 /**
@@ -50,11 +50,11 @@ struct GDTEntry32
  */
 struct IDT64
 {
-  uint16_t offset_low;
-  uint16_t selector;
-  uint8_t ist;
-  uint8_t types_attr;
-  uint16_t offset_mid;
-  uint32_t offset_high;
-  uint32_t zero;
+  uint16_t offset_low;  /** Offset Low */
+  uint16_t selector;    /** Selector */
+  uint8_t ist;          /** IST */
+  uint8_t types_attr;   /** Types Attributes*/
+  uint16_t offset_mid;  /** Offset Medium */
+  uint32_t offset_high; /** Offset High */
+  uint32_t zero;        /** Reserved */
 };

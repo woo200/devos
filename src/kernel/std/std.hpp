@@ -7,12 +7,12 @@
  * @brief Header to all memory blocks
  */
 struct MemorySegment {
-    uint64_t size;
-    bool isFree;
-    MemorySegment* nextSeg;
-    MemorySegment* prevSeg;
-    MemorySegment* nextFreeSeg;
-    MemorySegment* prevFreeSeg;
+    uint64_t size;              /** Size of memory segment */
+    bool isFree;                /** Is the segment free? */
+    MemorySegment* nextSeg;     /** Next Memory Segment */
+    MemorySegment* prevSeg;     /** Previous Memory Segment */
+    MemorySegment* nextFreeSeg; /** Next Free Memory Segment */
+    MemorySegment* prevFreeSeg; /** Previous Free Memory Segment */
 };
 
 /**
