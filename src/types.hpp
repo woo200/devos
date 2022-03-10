@@ -5,11 +5,19 @@ typedef unsigned int uint32_t;
 typedef unsigned short uint16_t;
 typedef unsigned char uint8_t;
 
+/**
+ * @brief Flags & Limit of GDT entry
+ * 
+ */
 struct FlagsLimit {
     uint8_t limit : 4;
     uint8_t flags : 4;
 };
 
+/**
+ * @brief 64 Bit GDT entry struct
+ * 
+ */
 struct GDTEntry64
 {
     uint16_t limit;
@@ -22,6 +30,10 @@ struct GDTEntry64
     uint32_t reserved;
 };
 
+/**
+ * @brief 32 Bit GDT entry struct
+ * 
+ */
 struct GDTEntry32
 {
     uint16_t limit;
@@ -32,6 +44,10 @@ struct GDTEntry32
     uint8_t base_high;
 };
 
+/**
+ * @brief 64 bit IDT entry struct
+ * 
+ */
 struct IDT64
 {
   uint16_t offset_low;
