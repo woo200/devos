@@ -59,6 +59,6 @@ clean:
 	rm -f src/bootloader/*.o
 	rm -f src/kernel/*.o
 	rm -f src/kernel/std/*.o
-	rm -f src/os/*.o
+	rm -f src/kernel/interrupts/*.o
 	rm -f src/os/std/*.o
 	rm -f bin/*
