@@ -44,6 +44,10 @@
 
 namespace kstd
 {
+  /**
+   * @brief Holds state of registers
+   * 
+   */
   struct registers
   {
     uint64_t rax;
