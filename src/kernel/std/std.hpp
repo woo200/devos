@@ -46,4 +46,5 @@ char* strcat(char* destination, const char* source);
 void free(void* mem_seg);
 
 void outb(unsigned short port, unsigned char val);
+void outbyte(unsigned short port, unsigned char val);
 unsigned char inb(unsigned short port);

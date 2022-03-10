@@ -27,6 +27,7 @@ gdt_descriptor:
 
 codeseg equ gdt_codedesc - gdt_nulldesc
 dataseg equ gdt_datadesc - gdt_nulldesc
+global codeseg
 [bits 32]
 
 EditGDT:

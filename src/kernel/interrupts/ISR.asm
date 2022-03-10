@@ -1,4 +1,5 @@
 global isr1
+global isr_df
 global LoadIDT
 
   %macro PUSHALL 0
@@ -30,6 +31,13 @@ idtDescriptor:
 isr1:
     PUSHALL
     call isr1_handler
+    POPALL
+    iretq
+
+[extern DF_handler]
+isr_df:
+	PUSHALL
+    call DF_handler
     POPALL
     iretq
 

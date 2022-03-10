@@ -1,7 +1,10 @@
 #include "IDT.hpp"
 
 extern IDT64 _idt[256];
+
 extern uint64_t isr1;
+extern uint64_t isr_df;
+
 extern "C" void LoadIDT();
 
 #define PIC1_COMMAND 0x20
@@ -34,21 +37,41 @@ void RemapPic(){
 }
 
 extern "C" void isr1_handler(){
-	// uint8_t scanCode = inb(0x60);
-	// outb(0x20, 0x20);
-	// outb(0xa0, 0x20);
-    while (true) {}
+	uint8_t scanCode = inb(0x60);
+
+	outb(0x20, 0x20);
+	outb(0xa0, 0x20);
+}
+
+extern "C" void DF_handler() {
+    volatile char *video = (volatile char*)0xB8000;
+    for (int i = 0; i < 80*25; i++)
+    {
+        *video++ = ' ';
+        *video++ = 0;
+    }
+    kstd::__error("Double Fault Detected. This is an unrecoverable error.");
+    for (;;) { asm("hlt"); }
 }
 
 void setup_idt(){
     // TODO: IDT Causes GPF whenever an interrupt is triggered
-    _idt[0].zero = 0;
-    _idt[0].offset_low = (uint16_t)(((uint64_t)&isr1 & 0x000000000000ffff));
-    _idt[0].offset_mid = (uint16_t)(((uint64_t)&isr1 & 0x00000000ffff0000) >> 16);
-    _idt[0].offset_high = (uint32_t)(((uint64_t)&isr1 & 0xffffffff00000000) >> 32);
-    _idt[0].ist = 0;
-    _idt[0].selector = 0x08;
-    _idt[0].types_attr = 0x8F;
+    
+    _idt[1].zero = 0;
+    _idt[1].offset_low = (uint16_t)(((uint64_t)0xFF & 0x000000000000ffff));
+    _idt[1].offset_mid = (uint16_t)(((uint64_t)&isr1 & 0x00000000ffff0000) >> 16);
+    _idt[1].offset_high = (uint32_t)(((uint64_t)&isr1 & 0xffffffff00000000) >> 32);
+    _idt[1].ist = 0;
+    _idt[1].selector = 0x08;
+    _idt[1].types_attr = 0x8E;
+
+    _idt[0x8].zero = 0;
+    _idt[0x8].offset_low = (uint16_t)(((uint64_t)&isr_df & 0x000000000000ffff));
+    _idt[0x8].offset_mid = (uint16_t)(((uint64_t)&isr_df & 0x00000000ffff0000) >> 16);
+    _idt[0x8].offset_high = (uint32_t)(((uint64_t)&isr_df & 0xffffffff00000000) >> 32);
+    _idt[0x8].ist = 0;
+    _idt[0x8].selector = 0x08;
+    _idt[0x8].types_attr = 0x8F;
 
 	RemapPic();
 

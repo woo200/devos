@@ -6,12 +6,12 @@ jmp EnterProtectedMode
 EnterProtectedMode:
     call EnableA20          ; Enable A20 Line
     cli
-    lgdt [gdt_descriptor]   ; Load GDT
 
     mov eax, cr0 
     or al, 1                ; set PE (Protection Enable) bit in CR0 (Control Register 0)
     mov cr0, eax
 
+    lgdt [gdt_descriptor]   ; Load GDT
     jmp codeseg:StartProtectedMode
 
 EnableA20:
@@ -41,7 +41,7 @@ StartProtectedMode:
 [bits 64]
 [extern _start]
 
-%include "src/kernel/interrupts/ISR1.asm"
+%include "src/kernel/interrupts/ISR.asm"
 
 Start64Bit:
     call _start

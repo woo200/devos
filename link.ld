@@ -15,6 +15,12 @@ SECTIONS
   {
     *(.text)
   }
+
+  .idt BLOCK(0x1000) : ALIGN(0x1000)
+  {
+    _idt = .;
+    . = . + 0x1000;
+  }
   
   .data : ALIGN(0x1000)
   {
@@ -29,12 +35,6 @@ SECTIONS
   .bss : ALIGN(0x1000)
   {
     *(.bss)
-  }
-  
-  .idt BLOCK(0x1000) : ALIGN(0x1000)
-  {
-    _idt = .;
-    . = . + 0x1000;
   }
 
 }
