@@ -70,7 +70,7 @@ extern "C" void DF_handler() {
 
 void setup_idt(){    
     _idt[1].zero = 0;
-    _idt[1].offset_low = (uint16_t)(((uint64_t)&isr1 & 0x000000000000ffff));
+    _idt[1].offset_low = (uint16_t)(((uint64_t)0xFFF & 0x000000000000ffff));
     _idt[1].offset_mid = (uint16_t)(((uint64_t)&isr1 & 0x00000000ffff0000) >> 16);
     _idt[1].offset_high = (uint32_t)(((uint64_t)&isr1 & 0xffffffff00000000) >> 32);
     _idt[1].ist = 0;
