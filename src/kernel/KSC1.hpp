@@ -28,7 +28,7 @@ enum KSC1 {
 };
 
 const KSC1 scanCodeTable[] = {
-    Escape, NUM1, NUM2, NUM3, NUM4, NUM5,
+    Escape, Escape, NUM1, NUM2, NUM3, NUM4, NUM5,
     NUM6, NUM7, NUM8, NUM9, NUM0, Minus,
     Equals, Backspace, Tab, KeyQ, KeyW,
     KeyE, KeyR, KeyT, KeyY, KeyU, KeyI,
