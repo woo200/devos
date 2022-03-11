@@ -27,6 +27,9 @@ public:
     void print( int color, const char *string );
     void print( const char *string );
 
+    void printChr(int color, char chr);
+    void printChr( char chr );
+
     void println( int color, const char *string );
     void println( const char *string );
 

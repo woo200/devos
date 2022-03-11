@@ -3,6 +3,8 @@
 #include "../../types.hpp"
 #include "std.hpp"
 
+extern void KeyboardHandler( char scanCode );
+
 #define Nop() {_asm nop _endasm}
 #pragma once
 

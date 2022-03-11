@@ -209,6 +209,30 @@ void VBETerminal::println(const char *string)
 }
 
 /**
+ * @brief Print char to screen
+ * 
+ * @param color Color
+ * @param chr Char to print
+ */
+void VBETerminal::printChr(int color, char chr)
+{
+    volatile char *video = (volatile char*)0xB8000 + (this->currentPos * 2);
+    *video++ = chr;
+    *video = color;
+    this->currentPos++;
+}
+
+/**
+ * @brief Print char to screen
+ * 
+ * @param chr Char to print
+ */
+void VBETerminal::printChr(char chr)
+{
+    this->printChr(0xF, chr);
+}
+
+/**
  * @brief Clear the screen
  * 
  */
