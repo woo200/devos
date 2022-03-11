@@ -92,7 +92,12 @@ namespace kstd
     printRegister(reg.r13, "R13:", 2, 12);
     printRegister(reg.r14, "R14:", 0, 13);
     printRegister(reg.r15, "R15:", 1, 13);
-    while (1) { }
+
+    kstd::PrintString("A fatal error has occured in the kernel.", BACKGROUND_RED | FOREGROUND_WHITE, kstd::positionFromCoords(VGA_WIDTH / 2 - 20, 15));
+    kstd::PrintString("The operating system has stopped to prevent damage to your computer.", BACKGROUND_RED | FOREGROUND_WHITE, kstd::positionFromCoords(VGA_WIDTH / 2 - 34, 16));
+    kstd::PrintString("Press any key to restart", BACKGROUND_RED | FOREGROUND_WHITE, kstd::positionFromCoords(VGA_WIDTH / 2 - 12, 18));
+
+    for (;;) {__asm("hlt");}  
   }
 
   registers dump_regs()

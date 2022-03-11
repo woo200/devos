@@ -9,6 +9,10 @@ void KeyboardHandler( char scanCode )
     KeyInput input = translateScanCode(scanCode);
     
     if (input.action == KeyDown) {
+        if (input.key == Backtick) {
+            kstd::__error("USER TRIGGERED FAULT BY PRESSING '`'");
+        }
+
         char keyCode = translateKeyCode(input.key);
         if (!keyCode) return;
 
