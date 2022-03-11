@@ -216,6 +216,12 @@ void VBETerminal::println(const char *string)
  */
 void VBETerminal::printChr(int color, char chr)
 {
+    if (chr == '\n') {
+        int charsLeft = 80 - (this->currentPos % 80);
+        currentPos += charsLeft;
+        return;
+    }
+
     volatile char *video = (volatile char*)0xB8000 + (this->currentPos * 2);
     *video++ = chr;
     *video = color;
