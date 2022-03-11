@@ -70,3 +70,4 @@ struct KeyInput {
 };
 
 KeyInput translateScanCode(uint8_t scanCode);
+char translateKeyCode(KSC1 keyCode);

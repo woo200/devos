@@ -9,7 +9,10 @@ void KeyboardHandler( char scanCode )
     KeyInput input = translateScanCode(scanCode);
     
     if (input.action == KeyDown)
-        term->printChr(input.key);
+        char keyCode = translateKeyCode(input.key);
+        if (!keyCode) return;
+
+        term->printChr(keyCode);
 }
 
 extern "C" void _start( void )
