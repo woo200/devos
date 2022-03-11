@@ -36,6 +36,9 @@ public:
     void printHex( uint64_t value );
     void printHex( int color, uint64_t value );
 
+    void moveCursor( uint8_t cursorPos );
+    uint8_t getCursorPos();
+
     void info( const char *string );
 
     void clear_screen();

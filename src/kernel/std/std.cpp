@@ -253,6 +253,26 @@ void VBETerminal::clear_screen()
 }
 
 /**
+ * @brief Move cursor to position
+ * 
+ * @param cursorPos cursor position
+ */
+void VBETerminal::moveCursor( uint8_t cursorPos )
+{
+    this->currentPos = cursorPos;
+}
+
+/**
+ * @brief Get cursor position
+ * 
+ * @return uint8_t current position of cursor
+ */
+uint8_t VBETerminal::getCursorPos()
+{
+    return this->currentPos;
+}
+
+/**
  * @brief Print colored hex value to screen
  * 
  * @param color color
