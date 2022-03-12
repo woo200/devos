@@ -2,8 +2,11 @@
 
 #include "../../types.hpp"
 #include "std.hpp"
+#include "../KSC1.hpp"
 
 extern void KeyboardHandler( char scanCode );
+extern bool kbByteAvailable;
+extern "C" void _start( void );
 
 #define Nop() {_asm nop _endasm}
 #pragma once
@@ -43,6 +46,8 @@ extern void KeyboardHandler( char scanCode );
 #define BACKGROUND_BLINKINGWHITE 0xF0
 #define VGA_MEMORY (uint8_t*) 0xb8000
 #define VGA_WIDTH 80
+
+extern KeyInput getKey();
 
 namespace kstd
 {

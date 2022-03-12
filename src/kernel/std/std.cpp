@@ -334,6 +334,28 @@ int strlen(const char *str)
 }
 
 /**
+ * @brief Compare two C strings
+ * 
+ * @param X String 1
+ * @param Y String 2
+ * @return int ASCII difference between strings
+ */
+int strcmp(const char *X, const char *Y)
+{
+    while (*X)
+    {
+        if (*X != *Y) {
+            break;
+        }
+        X++;
+        Y++;
+    }
+ 
+    // return the ASCII difference after converting `char*` to `unsigned char*`
+    return *(const unsigned char*)X - *(const unsigned char*)Y;
+}
+
+/**
  * @brief Copy a string 
  * 
  * @param source Source string

@@ -55,6 +55,7 @@ void memcpy(void* source, void* destination, int size);
 int strlen(const char *cStr);
 char* strcpy(const char *source, char *destination);
 char* strcat(char* destination, const char* source);
+int strcmp(const char *X, const char *Y);
 
 void free(void* mem_seg);
 
