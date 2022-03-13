@@ -1,4 +1,4 @@
-#include "KSC1.hpp";
+#include "KSC1.hpp"
 
 /**
  * @brief Translate a PS/1 KSC1 scan code into a {@code KeyInput}

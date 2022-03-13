@@ -53,15 +53,24 @@ extern "C" void _start( void )
     term->clear_screen();
     term->info("Kernel Loaded!");
     
+    // while (true) {
+    //     term->print("> ");
+    //     std::string testStr = input();
+    //     if (testStr == "CLS") {
+    //         term->clear_screen();
+    //         term->moveCursor(0);
+    //         term->println("Screen Cleared");
+    //         continue;
+    //     }
+    //     if (testStr == "RESET KERNEL") {
+    //         term->moveCursor(0);
+    //         term->println("Reseting Kernel");
+    //         _start();
+    //         break;
+    //     }
+    //     term->println("\nUnknown Command. Type HELP for help.");
+    // }
     while (true) {
-        term->print("> ");
-        std::string testStr = input();
-        if (testStr == "CLS") {
-            term->clear_screen();
-            term->moveCursor(0);
-            term->println("Screen Cleared");
-            continue;
-        }
-        term->println("\nUnknown Command. Type HELP for help.");
-    }   
+        
+    }
 }

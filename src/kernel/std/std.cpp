@@ -50,7 +50,7 @@ void* malloc(uint64_t requestedMemorySize)
             SegIterator = SegIterator->prevFreeSeg;
         }
 
-        return ((void*) AllocatedMemorySegment) + sizeof(MemorySegment);
+        return AllocatedMemorySegment + sizeof(MemorySegment);
     }
     
     // Allocate a new memory segment
@@ -66,7 +66,7 @@ void* malloc(uint64_t requestedMemorySize)
     LastMemorySeg->nextSeg = NewMemorySegment;
     LastMemorySeg = NewMemorySegment;
 
-    return ((void*) NewMemorySegment) + sizeof(MemorySegment);
+    return NewMemorySegment + sizeof(MemorySegment);
 }
 
 /**
@@ -79,7 +79,7 @@ void* calloc(uint64_t requestedMemorySize)
 {
     void* memory = malloc(requestedMemorySize);
     for (int i = 0; i < requestedMemorySize; i++)
-        *((char*) (memory + i)) = 0;
+        *((char*) ((MemorySegment*)memory + i)) = 0;
     return memory;
 }
 
@@ -93,7 +93,7 @@ void* calloc(uint64_t requestedMemorySize)
 void* realloc(void* oldMem, uint64_t requestedMemorySize)
 {
     void* newMemory = (void*)calloc(requestedMemorySize);
-    MemorySegment* memSeg = (MemorySegment*) (oldMem - sizeof(MemorySegment));
+    MemorySegment* memSeg = (MemorySegment*) ((MemorySegment*)oldMem - sizeof(MemorySegment));
     memcpy(oldMem, newMemory, memSeg->size);
     return newMemory;
 }
@@ -121,7 +121,7 @@ void memcpy(void* src, void* dest, int size)
  */
 void free(void* segToFree)
 {
-    MemorySegment* memSeg = (MemorySegment*) (segToFree - sizeof(MemorySegment));
+    MemorySegment* memSeg = (MemorySegment*) ((MemorySegment*)segToFree - sizeof(MemorySegment));
     memSeg->isFree = true;
     
     // If next segment is free, merge the two
