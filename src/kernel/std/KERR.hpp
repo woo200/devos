@@ -76,5 +76,6 @@ namespace kstd
   };
 
   void __error(char* error);
+  void __error(const char* error);
   registers dump_regs();
 }

@@ -126,6 +126,8 @@ namespace std
      */
     char* string::pop(int amount)
     {
+        if (this->stringLength < amount)
+            return nullptr;
         char* newStr = (char*) calloc(sizeof(char) * (this->stringLength - amount));
         char* popped = (char*) calloc(sizeof(char) * amount);
 

@@ -1,0 +1,6 @@
+# Exclude build files
+*.o
+bin
+
+# Exclude editor folders
+/.vscode/

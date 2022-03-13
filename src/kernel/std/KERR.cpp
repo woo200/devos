@@ -69,6 +69,10 @@ namespace kstd
     kstd::printHex(value, BACKGROUND_RED | FOREGROUND_WHITE, pos);
   }
 
+  void printRegister(uint64_t value, const char* reg, int x, int y) {
+    printRegister(value, (char*) reg, x, y);
+  }
+
   void __error(char* error)
   {
     kstd::ClearScreen(BACKGROUND_RED | FOREGROUND_WHITE);
@@ -101,6 +105,10 @@ namespace kstd
     getKey();
 
     _start();
+  }
+
+  void __error(const char* error) {
+    __error((char*) error);
   }
 
   registers dump_regs()

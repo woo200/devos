@@ -3,7 +3,13 @@ jmp EnterProtectedMode
 %include "src/kernel/gdt.asm"
 
 [bits 16]
+EnableVGAMode:
+    mov ax, 0x4f02          ; Graphics mode Video Mode
+    int 0x10                ; Set the video mode
+    ret
+
 EnterProtectedMode:
+    call EnableVGAMode      ; Enables VGA Mode
     call EnableA20          ; Enable A20 Line
     cli
 
